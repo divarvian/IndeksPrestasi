@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitung Indeks Prestasi Semester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #444;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            flex: 2;
+            line-height: 32px;
+        }
+
+        .form-group input, .form-group select {
+            flex: 3;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .add-btn {
+            background-color: #007BFF;
+        }
+
+        .add-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hitung Indeks Prestasi (IP)</h1>
+        <form id="ipsForm">
+            <div id="subjects">
+                <div class="form-group">
+                    <label>Mata Kuliah 1</label>
+                    <input type="number" name="credit[]" placeholder="Jumlah SKS" required>
+                    <select name="grade[]" required>
+                        <option value="4">A</option>
+                        <option value="3.5">B+</option>
+                        <option value="3">B</option>
+                        <option value="2.5">C+</option>
+                        <option value="2">C</option>
+                        <option value="1.5">D+</option>
+                        <option value="1">D</option>
+                        <option value="0">E</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" class="add-btn" onclick="addSubject()">Tambah Mata Kuliah</button>
+            <button type="button" onclick="calculateIPS()">Hitung IPS</button>
+        </form>
+        <h2>Hasil IPS: <span id="result">-</span></h2>
+    </div>
+
+    <script>
+        function addSubject() {
+            const subjectsDiv = document.getElementById('subjects');
+            const newSubject = document.createElement('div');
+            newSubject.className = "form-group";
+            newSubject.innerHTML = `
+                <label>Mata Kuliah ${subjectsDiv.children.length + 1}</label>
+                <input type="number" name="credit[]" placeholder="Jumlah SKS" required>
+                <select name="grade[]" required>
+                    <option value="4">A</option>
+                    <option value="3.5">B+</option>
+                    <option value="3">B</option>
+                    <option value="2.5">C+</option>
+                    <option value="2">C</option>
+                    <option value="1.5">D+</option>
+                    <option value="1">D</option>
+                    <option value="0">E</option>
+                </select>
+            `;
+            subjectsDiv.appendChild(newSubject);
+        }
+
+        function calculateIPS() {
+            const credits = document.getElementsByName('credit[]');
+            const grades = document.getElementsByName('grade[]');
+
+            let totalWeightedScore = 0;
+            let totalCredits = 0;
+
+            for (let i = 0; i < credits.length; i++) {
+                const credit = parseFloat(credits[i].value);
+                const grade = parseFloat(grades[i].value);
+
+                totalWeightedScore += credit * grade;
+                totalCredits += credit;
+            }
+
+            const ips = totalWeightedScore / totalCredits;
+            document.getElementById('result').textContent = totalCredits ? ips.toFixed(2) : '0.00';
+        }
+    </script>
+</body>
+</html>
