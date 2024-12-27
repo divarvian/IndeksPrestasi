@@ -90,7 +90,7 @@
         <form id="ipsForm">
             <div id="subjects">
                 <div class="form-group">
-                    <label>Mata Kuliah 1</label>
+                    <label>Matkul 1</label>
                     <input type="number" name="credit[]" placeholder="Jumlah SKS" required>
                     <select name="grade[]" required>
                         <option value="4">A</option>
@@ -116,7 +116,7 @@
             const newSubject = document.createElement('div');
             newSubject.className = "form-group";
             newSubject.innerHTML = `
-                <label>Mata Kuliah ${subjectsDiv.children.length + 1}</label>
+                <label>Matakul ${subjectsDiv.children.length + 1}</label>
                 <input type="number" name="credit[]" placeholder="Jumlah SKS" required>
                 <select name="grade[]" required>
                     <option value="4">A</option>
