@@ -1,98 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hitung Indeks Prestasi Semester</title>
+    <title>Kalkulator IP Semester | Desain Modern</title>
+    
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Memuat Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        /* Menggunakan font Inter sebagai default */
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2 {
-            text-align: center;
-            color: #444;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .form-group label {
-            flex: 2;
-            line-height: 32px;
-        }
-
-        .form-group input, .form-group select {
-            flex: 3;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            margin: 5px 0;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            display: inline-block;
-            text-align: center;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        #result {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
-            text-align: center;
-            display: block;
-            margin-top: 20px;
-        }
-
-        .add-btn {
-            background-color: #007BFF;
-        }
-
-        .add-btn:hover {
-            background-color: #0056b3;
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Hitung Indeks Prestasi</h1>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Kontainer Utama -->
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-6 md:p-8">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800">Kalkulator IP Semester</h1>
+            <p class="text-slate-500 mt-2">Masukkan SKS dan nilai untuk setiap mata kuliah Anda.</p>
+        </div>
+
+        <!-- Form utama -->
         <form id="ipsForm">
-            <div id="subjects">
-                <div class="form-group">
-                    <label>Matkul 1</label>
-                    <input type="number" name="credit[]" placeholder="Jumlah SKS" required>
-                    <select name="grade[]" required>
+            <!-- Daftar Mata Kuliah -->
+            <div id="subjects" class="space-y-4">
+                <!-- Baris Mata Kuliah Awal (Template) -->
+                <div class="flex flex-col sm:flex-row items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <label class="w-full sm:w-1/4 font-semibold text-slate-700">Matkul 1</label>
+                    <div class="w-full sm:w-1/2">
+                        <input type="number" name="credit[]" placeholder="Jumlah SKS" required class="w-full px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    </div>
+                    <div class="w-full sm:w-1/4">
+                        <select name="grade[]" required class="w-full px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                            <option value="4">A</option>
+                            <option value="3.5">B+</option>
+                            <option value="3">B</option>
+                            <option value="2.5">C+</option>
+                            <option value="2">C</option>
+                            <option value="1.5">D+</option>
+                            <option value="1">D</option>
+                            <option value="0">E</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                <button type="button" onclick="addSubject()" class="w-full sm:w-auto flex-grow px-6 py-3 bg-indigo-100 text-indigo-700 font-semibold rounded-lg shadow-sm hover:bg-indigo-200 transition-all duration-200 ease-in-out">
+                    Tambah Mata Kuliah
+                </button>
+                <button type="button" onclick="calculateIPS()" class="w-full sm:w-auto flex-grow px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 ease-in-out">
+                    Hitung IPS
+                </button>
+            </div>
+        </form>
+
+        <!-- Hasil Perhitungan -->
+        <div class="mt-8 text-center bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h2 class="text-lg font-medium text-slate-600">Indeks Prestasi Semester (IPS) Anda:</h2>
+            <p id="result" class="text-5xl font-extrabold text-indigo-600 mt-2 tracking-tight">-</p>
+        </div>
+
+    </div>
+
+    <script>
+        let subjectCount = 1;
+
+        /**
+         * Fungsi untuk menambahkan baris input mata kuliah baru
+         */
+        function addSubject() {
+            subjectCount++;
+            const subjectsDiv = document.getElementById('subjects');
+            const newSubject = document.createElement('div');
+            // Menambahkan kelas Tailwind untuk styling yang konsisten
+            newSubject.className = "flex flex-col sm:flex-row items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200 animate-fade-in";
+            
+            // Konten HTML untuk baris baru
+            newSubject.innerHTML = `
+                <label class="w-full sm:w-1/4 font-semibold text-slate-700">Matkul ${subjectCount}</label>
+                <div class="w-full sm:w-1/2">
+                    <input type="number" name="credit[]" placeholder="Jumlah SKS" required class="w-full px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                </div>
+                <div class="w-full sm:w-1/4">
+                    <select name="grade[]" required class="w-full px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                         <option value="4">A</option>
                         <option value="3.5">B+</option>
                         <option value="3">B</option>
@@ -103,53 +106,75 @@
                         <option value="0">E</option>
                     </select>
                 </div>
-            </div>
-            <button type="button" class="add-btn" onclick="addSubject()">Tambah Mata Kuliah</button>
-            <button type="button" onclick="calculateIPS()">Hitung IP</button>
-        </form>
-        <h2>Hasil IP: <span id="result">-</span></h2>
-    </div>
-
-    <script>
-        function addSubject() {
-            const subjectsDiv = document.getElementById('subjects');
-            const newSubject = document.createElement('div');
-            newSubject.className = "form-group";
-            newSubject.innerHTML = `
-                <label>Matkul ${subjectsDiv.children.length + 1}</label>
-                <input type="number" name="credit[]" placeholder="Jumlah SKS" required>
-                <select name="grade[]" required>
-                    <option value="4">A</option>
-                    <option value="3.5">B+</option>
-                    <option value="3">B</option>
-                    <option value="2.5">C+</option>
-                    <option value="2">C</option>
-                    <option value="1.5">D+</option>
-                    <option value="1">D</option>
-                    <option value="0">E</option>
-                </select>
             `;
             subjectsDiv.appendChild(newSubject);
         }
 
+        /**
+         * Fungsi untuk menghitung dan menampilkan IPS
+         */
         function calculateIPS() {
             const credits = document.getElementsByName('credit[]');
             const grades = document.getElementsByName('grade[]');
+            const resultElement = document.getElementById('result');
 
             let totalWeightedScore = 0;
             let totalCredits = 0;
+            let allFieldsValid = true;
 
+            // Iterasi melalui semua input
             for (let i = 0; i < credits.length; i++) {
-                const credit = parseFloat(credits[i].value);
+                const creditValue = credits[i].value;
+                // Validasi input SKS
+                if (creditValue === '' || parseFloat(creditValue) <= 0) {
+                    credits[i].focus();
+                    credits[i].classList.add('border-red-500', 'ring-red-500'); // Menandai input yang tidak valid
+                    allFieldsValid = false;
+                    break; 
+                } else {
+                    credits[i].classList.remove('border-red-500', 'ring-red-500');
+                }
+                
+                const credit = parseFloat(creditValue);
                 const grade = parseFloat(grades[i].value);
 
                 totalWeightedScore += credit * grade;
                 totalCredits += credit;
             }
 
-            const ips = totalWeightedScore / totalCredits;
-            document.getElementById('result').textContent = totalCredits ? ips.toFixed(2) : '0.00';
+            if (!allFieldsValid) {
+                resultElement.textContent = "Error";
+                resultElement.classList.remove('text-indigo-600');
+                resultElement.classList.add('text-red-500');
+                return;
+            }
+            
+            // Menghindari pembagian dengan nol
+            if (totalCredits > 0) {
+                const ips = totalWeightedScore / totalCredits;
+                resultElement.textContent = ips.toFixed(2);
+            } else {
+                resultElement.textContent = '0.00';
+            }
+
+            // Mengembalikan warna teks ke default jika sebelumnya error
+            resultElement.classList.remove('text-red-500');
+            resultElement.classList.add('text-indigo-600');
         }
+
+        // Menambahkan sedikit animasi saat item baru ditambahkan
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = `
+            @keyframes fade-in {
+                from { opacity: 0; transform: scale(0.95); }
+                to { opacity: 1; transform: scale(1); }
+            }
+            .animate-fade-in {
+                animation: fade-in 0.3s ease-out forwards;
+            }
+        `;
+        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>
