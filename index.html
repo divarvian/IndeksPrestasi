@@ -40,20 +40,44 @@
         <!-- Form utama -->
         <form id="ipsForm" onsubmit="return false;">
             <!-- Daftar Mata Kuliah -->
-            <div id="subjects" class="space-y-3">
-                 <div class="hidden sm:flex items-center gap-3 px-3 text-sm font-semibold text-slate-500">
-                    <div class="w-full sm:w-[calc(100%/3)]">Nama Mata Kuliah</div>
-                    <div class="w-full sm:w-[calc(100%/3*0.8)] pl-1">Jumlah SKS</div>
-                    <div class="w-full sm:w-[calc(100%/3*0.5)]">Nilai</div>
+            <div id="subjects" class="space-y-4">
+                 <!-- Header Tabel (Hanya untuk Desktop) -->
+                 <div class="hidden sm:flex items-center gap-x-3 px-3 text-sm font-semibold text-slate-500">
+                    <div class="flex-1">Nama Mata Kuliah</div>
+                    <div class="w-24">Jumlah SKS</div>
+                    <div class="w-24">Nilai</div>
                     <div class="w-10"></div>
                 </div>
-                <div class="subject-row flex flex-col sm:flex-row items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
-                    <input type="text" name="subjectName[]" placeholder="Contoh: Kecerdasan Buatan" required class="w-full sm:w-[calc(100%/3)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                    <input type="number" name="credit[]" placeholder="SKS" required class="w-full sm:w-[calc(100%/3*0.8)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                    <select name="grade[]" required class="w-full sm:w-[calc(100%/3*0.5)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                        <option value="4">A</option><option value="3.5">B+</option><option value="3">B</option><option value="2.5">C+</option><option value="2">C</option><option value="1.5">D+</option><option value="1">D</option><option value="0">E</option>
-                    </select>
-                    <button type="button" onclick="removeSubject(this)" class="w-10 h-10 flex-shrink-0 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-100 rounded-full transition"><i class="ph ph-trash text-xl"></i></button>
+                <!-- Baris Mata Kuliah (Struktur Baru yang Responsif) -->
+                <div class="subject-row flex flex-wrap sm:flex-nowrap items-center gap-x-3 gap-y-2 p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <!-- Input Nama Matkul -->
+                    <div class="w-full sm:flex-1 order-1">
+                        <label class="text-xs font-medium text-slate-600 sm:hidden">Nama Mata Kuliah</label>
+                        <input type="text" name="subjectName[]" placeholder="Contoh: Kecerdasan Buatan" required class="w-full mt-1 sm:mt-0 px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    </div>
+                    <!-- Input SKS (DIUBAH MENJADI DROPDOWN) -->
+                    <div class="flex-1 min-w-[calc(50%-0.5rem)] sm:w-24 order-2">
+                         <label class="text-xs font-medium text-slate-600 sm:hidden">SKS</label>
+                         <select name="credit[]" required class="w-full mt-1 sm:mt-0 px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                            <option value="1">1 SKS</option>
+                            <option value="2" selected>2 SKS</option>
+                            <option value="3">3 SKS</option>
+                            <option value="4">4 SKS</option>
+                            <option value="5">5 SKS</option>
+                            <option value="6">6 SKS</option>
+                         </select>
+                    </div>
+                    <!-- Pilihan Nilai -->
+                    <div class="flex-1 min-w-[calc(50%-0.5rem)] sm:w-24 order-3">
+                        <label class="text-xs font-medium text-slate-600 sm:hidden">Nilai</label>
+                        <select name="grade[]" required class="w-full mt-1 sm:mt-0 px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                            <option value="4">A</option><option value="3.5">B+</option><option value="3">B</option><option value="2.5">C+</option><option value="2">C</option><option value="1.5">D+</option><option value="1">D</option><option value="0">E</option>
+                        </select>
+                    </div>
+                    <!-- Tombol Hapus -->
+                    <div class="sm:w-10 order-4 self-end sm:self-center">
+                         <button type="button" onclick="removeSubject(this)" class="w-10 h-10 flex-shrink-0 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-100 rounded-full transition"><i class="ph ph-trash text-xl"></i></button>
+                    </div>
                 </div>
             </div>
 
@@ -84,28 +108,46 @@
     </div>
 
     <script>
-        // --- State Management ---
         let lastCalculationData = null;
 
-        // --- Logika Aplikasi Utama (Fungsi Global) ---
         function addSubject() {
             const subjectsDiv = document.getElementById('subjects');
             const newSubject = document.createElement('div');
-            newSubject.className = "subject-row flex flex-col sm:flex-row items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200 animate-fade-in";
+            newSubject.className = "subject-row flex flex-wrap sm:flex-nowrap items-center gap-x-3 gap-y-2 p-3 bg-slate-50 rounded-lg border border-slate-200 animate-fade-in";
+            // Konten HTML untuk baris baru dengan dropdown SKS
             newSubject.innerHTML = `
-                <input type="text" name="subjectName[]" placeholder="Nama Mata Kuliah" required class="w-full sm:w-[calc(100%/3)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                <input type="number" name="credit[]" placeholder="SKS" required class="w-full sm:w-[calc(100%/3*0.8)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                <select name="grade[]" required class="w-full sm:w-[calc(100%/3*0.5)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                    <option value="4">A</option><option value="3.5">B+</option><option value="3">B</option><option value="2.5">C+</option><option value="2">C</option><option value="1.5">D+</option><option value="1">D</option><option value="0">E</option>
-                </select>
-                <button type="button" onclick="removeSubject(this)" class="w-10 h-10 flex-shrink-0 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-100 rounded-full transition"><i class="ph ph-trash text-xl"></i></button>`;
+                <div class="w-full sm:flex-1 order-1">
+                    <label class="text-xs font-medium text-slate-600 sm:hidden">Nama Mata Kuliah</label>
+                    <input type="text" name="subjectName[]" placeholder="Nama Mata Kuliah Baru" required class="w-full mt-1 sm:mt-0 px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                </div>
+                <div class="flex-1 min-w-[calc(50%-0.5rem)] sm:w-24 order-2">
+                     <label class="text-xs font-medium text-slate-600 sm:hidden">SKS</label>
+                     <select name="credit[]" required class="w-full mt-1 sm:mt-0 px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                        <option value="1">1 SKS</option>
+                        <option value="2">2 SKS</option>
+                        <option value="3" selected>3 SKS</option>
+                        <option value="4">4 SKS</option>
+                        <option value="5">5 SKS</option>
+                        <option value="6">6 SKS</option>
+                     </select>
+                </div>
+                <div class="flex-1 min-w-[calc(50%-0.5rem)] sm:w-24 order-3">
+                    <label class="text-xs font-medium text-slate-600 sm:hidden">Nilai</label>
+                    <select name="grade[]" required class="w-full mt-1 sm:mt-0 px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                        <option value="4">A</option><option value="3.5">B+</option><option value="3">B</option><option value="2.5">C+</option><option value="2">C</option><option value="1.5">D+</option><option value="1">D</option><option value="0">E</option>
+                    </select>
+                </div>
+                <div class="sm:w-10 order-4 self-end sm:self-center">
+                     <button type="button" onclick="removeSubject(this)" class="w-10 h-10 flex-shrink-0 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-100 rounded-full transition"><i class="ph ph-trash text-xl"></i></button>
+                </div>`;
             subjectsDiv.appendChild(newSubject);
-            const styleSheet = document.createElement("style"); styleSheet.type = "text/css"; styleSheet.innerText = `@keyframes fade-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}.animate-fade-in{animation:fade-in .4s ease-out forwards}`; document.head.appendChild(styleSheet);
         }
 
         function removeSubject(button) {
             if (document.querySelectorAll('.subject-row').length > 1) {
-                button.closest('.subject-row').remove();
+                const rowToRemove = button.closest('.subject-row');
+                rowToRemove.classList.add('animate-fade-out');
+                setTimeout(() => rowToRemove.remove(), 300);
             } else {
                 alert("Minimal harus ada satu mata kuliah.");
             }
@@ -131,10 +173,9 @@
                 const name = subjectNames[i].value.trim();
                 const credit = credits[i].value;
 
-                if (!name || !credit || parseFloat(credit) <= 0) {
+                if (!name) { // Hanya cek nama, karena SKS dan Nilai selalu punya value dari dropdown
                     allFieldsValid = false;
-                    subjectNames[i].classList.add('border-red-500');
-                    credits[i].classList.add('border-red-500');
+                    subjectNames[i].classList.add('border-red-500','ring-red-500');
                     break;
                 }
                 
@@ -147,7 +188,6 @@
                 lastCalculationData.courses.push({ name: name, credit: creditVal, grade: gradeLetter });
             }
             
-            // Sembunyikan saran sebelumnya jika ada perhitungan baru
             document.getElementById('advice-section').classList.add('hidden');
             
             if (!allFieldsValid) {
@@ -192,12 +232,12 @@
                 1.  **Analisis Singkat:** Berikan komentar singkat yang positif tentang hasil mahasiswa secara keseluruhan.
                 2.  **Identifikasi Kekuatan:** Sebutkan 1-2 mata kuliah dengan nilai terbaik dan puji pencapaian tersebut.
                 3.  **Fokus Perbaikan:** Identifikasi 1-2 mata kuliah yang paling krusial untuk diperbaiki (prioritaskan yang SKS-nya besar tapi nilainya kurang memuaskan) dan jelaskan mengapa ini penting.
-                4.  **Strategi Belajar Konkret:** Berikan 3-5 poin strategi belajar yang spesifik dan praktis. Contohnya seperti "buat rangkuman visual dengan metode mind-mapping", "alokasikan 2 jam setiap selasa untuk latihan soal", atau "diskusikan materi X dengan teman sebelum kelas".
+                4.  **Strategi Belajar Konkret:** Berikan 3-5 poin strategi belajar yang spesifik dan praktis.
                 5.  **Pesan Semangat:** Akhiri dengan kalimat yang memotivasi mahasiswa untuk terus berkembang di semester berikutnya.
             `;
             
             const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
-            const apiKey = "AIzaSyDopkAQ6qLc6Oz7MsucwRLzraClSP8qsVg"; // Kunci API akan disediakan oleh environment secara otomatis
+            const apiKey = "AIzaSyDopkAQ6qLc6Oz7MsucwRLzraClSP8qsVg";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
@@ -207,25 +247,12 @@
                     body: JSON.stringify(payload)
                 });
 
-                if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
-                }
-
+                if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
                 const result = await response.json();
                 
                 if (result.candidates && result.candidates.length > 0 && result.candidates[0].content.parts[0].text) {
                     const text = result.candidates[0].content.parts[0].text;
-                    
-                    // Konversi Markdown sederhana ke HTML agar tampil lebih baik
-                    const html = text
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                        .replace(/(\n|^)#\s(.*?$)/gm, '<h1>$2</h1>')
-                        .replace(/(\n|^)##\s(.*?$)/gm, '<h2>$2</h2>')
-                        .replace(/(\n|^)###\s(.*?$)/gm, '<h3>$2</h3>')
-                        .replace(/(\n\d\.\s)/g, '<br><br><strong>$1</strong>') // Memberi spasi antar poin utama
-                        .replace(/\n-/g, '<br>-'); // list item
-                    
+                    const html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
                     adviceContent.innerHTML = html;
                 } else {
                     throw new Error("Respons dari API tidak valid atau kosong.");
@@ -238,6 +265,16 @@
                 adviceBtn.disabled = false;
             }
         }
+        
+        const styleSheet = document.createElement("style"); 
+        styleSheet.type = "text/css"; 
+        styleSheet.innerText = `
+            @keyframes fade-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+            .animate-fade-in { animation: fade-in 0.3s ease-out forwards; }
+            @keyframes fade-out { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.95); } }
+            .animate-fade-out { animation: fade-out 0.3s ease-in forwards; }
+        `;
+        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>
