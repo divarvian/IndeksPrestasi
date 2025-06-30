@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator IP Semester | AI Lokal Tanpa API Key</title>
+    <title>Kalkulator IP Semester | Saran Cerdas dari Gemini AI</title>
     
     <!-- Memuat Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,14 +24,6 @@
             -webkit-appearance: none; margin: 0; 
         }
         input[type=number] { -moz-appearance: textfield; }
-        .progress-bar {
-            background-size: 200% 100%;
-            animation: progress-animation 2s linear infinite;
-        }
-        @keyframes progress-animation {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
     </style>
 </head>
 <body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
@@ -42,7 +34,7 @@
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-3xl md:text-4xl font-bold text-slate-800">Kalkulator IP Semester</h1>
-            <p class="text-slate-500 mt-2">Dapatkan saran belajar dari AI yang berjalan 100% di perangkat Anda.</p>
+            <p class="text-slate-500 mt-2">Dapatkan saran belajar cerdas dari Gemini AI.</p>
         </div>
 
         <!-- Form utama -->
@@ -56,7 +48,7 @@
                     <div class="w-10"></div>
                 </div>
                 <div class="subject-row flex flex-col sm:flex-row items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
-                    <input type="text" name="subjectName[]" placeholder="Contoh: Kalkulus Lanjut" required class="w-full sm:w-[calc(100%/3)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    <input type="text" name="subjectName[]" placeholder="Contoh: Kecerdasan Buatan" required class="w-full sm:w-[calc(100%/3)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                     <input type="number" name="credit[]" placeholder="SKS" required class="w-full sm:w-[calc(100%/3*0.8)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                     <select name="grade[]" required class="w-full sm:w-[calc(100%/3*0.5)] px-4 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                         <option value="4">A</option><option value="3.5">B+</option><option value="3">B</option><option value="2.5">C+</option><option value="2">C</option><option value="1.5">D+</option><option value="1">D</option><option value="0">E</option>
@@ -71,21 +63,13 @@
             </div>
         </form>
         
-        <!-- Status Pemuatan AI -->
-        <div id="ai-status-container" class="mt-8 text-center bg-gray-50 p-4 rounded-xl border border-gray-200">
-            <div id="ai-status-text" class="text-sm font-medium text-gray-600"></div>
-            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                <div id="ai-progress-bar" class="bg-gradient-to-r from-blue-400 to-indigo-500 h-2.5 rounded-full progress-bar" style="width: 0%"></div>
-            </div>
-        </div>
-
         <!-- Hasil Perhitungan -->
-        <div id="result-section" class="hidden mt-4 text-center bg-slate-50 p-6 rounded-xl border border-slate-200">
+        <div id="result-section" class="hidden mt-8 text-center bg-slate-50 p-6 rounded-xl border border-slate-200">
             <h2 class="text-lg font-medium text-slate-600">Indeks Prestasi Semester (IPS) Anda:</h2>
             <p id="result" class="text-5xl font-extrabold text-indigo-600 mt-2 tracking-tight">-</p>
             <button id="get-advice-btn" type="button" onclick="getStudyAdvice()" disabled class="mt-6 w-full max-w-sm mx-auto flex items-center justify-center gap-2 px-6 py-3 bg-amber-400 text-amber-900 font-semibold rounded-lg shadow-sm hover:bg-amber-500 transition-all disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed">
-                <i id="advice-btn-icon" class="ph-fill ph-sparkle text-xl"></i>
-                <span id="advice-btn-text">AI Belum Siap</span>
+                <i class="ph-fill ph-sparkle text-xl"></i>
+                <span>Dapatkan Saran Belajar</span>
             </button>
         </div>
 
@@ -93,77 +77,18 @@
         <div id="advice-section" class="hidden mt-6">
              <div id="advice-loading" class="text-center p-6">
                 <svg class="animate-spin h-8 w-8 text-indigo-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                <p class="mt-3 text-slate-500 font-medium">AI sedang berpikir... Ini mungkin perlu beberapa saat.</p>
+                <p class="mt-3 text-slate-500 font-medium">✨ Gemini sedang menganalisis dan menyusun saran terbaik untuk Anda...</p>
             </div>
             <div id="advice-content" class="p-6 bg-indigo-50 border-2 border-dashed border-indigo-200 rounded-xl prose max-w-none prose-p:text-slate-600 prose-headings:text-indigo-800 prose-strong:text-slate-700"></div>
         </div>
     </div>
 
-    <script type="module">
-        // --- Perubahan: Impor 'pipeline' langsung dari URL CDN ---
-        import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
-
+    <script>
         // --- State Management ---
         let lastCalculationData = null;
-        const self = {
-            pipeline: null,
-            status: 'unloaded' // 'unloaded', 'loading', 'ready', 'error'
-        };
-
-        // --- Inisialisasi AI ---
-        async function initializeAI() {
-            try {
-                updateAIStatusUI('loading', { status: 'Mempersiapkan Asisten AI...', progress: 0 });
-                // Sekarang 'pipeline' sudah terdefinisi dari impor di atas
-                self.pipeline = await pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-77M', {
-                    progress_callback: (progress) => {
-                        updateAIStatusUI('loading', progress);
-                    }
-                });
-                self.status = 'ready';
-                updateAIStatusUI('ready');
-            } catch (error) {
-                console.error("Gagal memuat model AI:", error);
-                self.status = 'error';
-                updateAIStatusUI('error');
-            }
-        }
-        
-        // --- Fungsi UI & Event Listeners ---
-        function updateAIStatusUI(status, data) {
-            const statusContainer = document.getElementById('ai-status-container');
-            const statusText = document.getElementById('ai-status-text');
-            const progressBar = document.getElementById('ai-progress-bar');
-            const adviceBtn = document.getElementById('get-advice-btn');
-            const adviceBtnText = document.getElementById('advice-btn-text');
-
-            switch (status) {
-                case 'loading':
-                    statusContainer.classList.remove('hidden');
-                    statusText.textContent = `${data.status} (${Math.round(data.progress)}%)`;
-                    progressBar.style.width = `${data.progress}%`;
-                    adviceBtnText.textContent = 'Mempersiapkan AI...';
-                    break;
-                case 'ready':
-                    statusText.textContent = 'Asisten AI siap membantu! Silakan hitung IPS Anda.';
-                    progressBar.style.width = '100%';
-                    progressBar.classList.remove('progress-bar', 'bg-gradient-to-r', 'from-blue-400', 'to-indigo-500');
-                    progressBar.classList.add('bg-green-500');
-                    adviceBtn.disabled = true;
-                    adviceBtnText.textContent = '✨ Dapatkan Saran';
-                    break;
-                case 'error':
-                    statusText.textContent = 'Gagal memuat Asisten AI. Fitur saran tidak akan tersedia.';
-                    progressBar.style.width = '100%';
-                    progressBar.classList.remove('progress-bar', 'bg-gradient-to-r', 'from-blue-400', 'to-indigo-500');
-                    progressBar.classList.add('bg-red-500');
-                    adviceBtnText.textContent = 'AI Gagal Dimuat';
-                    break;
-            }
-        }
 
         // --- Logika Aplikasi Utama (Fungsi Global) ---
-        window.addSubject = function() {
+        function addSubject() {
             const subjectsDiv = document.getElementById('subjects');
             const newSubject = document.createElement('div');
             newSubject.className = "subject-row flex flex-col sm:flex-row items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200 animate-fade-in";
@@ -178,7 +103,7 @@
             const styleSheet = document.createElement("style"); styleSheet.type = "text/css"; styleSheet.innerText = `@keyframes fade-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}.animate-fade-in{animation:fade-in .4s ease-out forwards}`; document.head.appendChild(styleSheet);
         }
 
-        window.removeSubject = function(button) {
+        function removeSubject(button) {
             if (document.querySelectorAll('.subject-row').length > 1) {
                 button.closest('.subject-row').remove();
             } else {
@@ -186,7 +111,7 @@
             }
         }
 
-        window.calculateIPS = function() {
+        function calculateIPS() {
             const subjectNames = document.getElementsByName('subjectName[]');
             const credits = document.getElementsByName('credit[]');
             const grades = document.getElementsByName('grade[]');
@@ -197,6 +122,7 @@
             resultSection.classList.remove('hidden');
             let totalWeightedScore = 0;
             let totalCredits = 0;
+            let allFieldsValid = true;
             lastCalculationData = { courses: [] };
 
             document.querySelectorAll('input, select').forEach(el => el.classList.remove('border-red-500', 'ring-red-500'));
@@ -204,12 +130,14 @@
             for (let i = 0; i < credits.length; i++) {
                 const name = subjectNames[i].value.trim();
                 const credit = credits[i].value;
+
                 if (!name || !credit || parseFloat(credit) <= 0) {
-                    resultElement.textContent = "Error";
-                    resultElement.classList.add('text-red-500');
-                    if (self.status === 'ready') adviceBtn.disabled = true;
-                    return;
+                    allFieldsValid = false;
+                    subjectNames[i].classList.add('border-red-500');
+                    credits[i].classList.add('border-red-500');
+                    break;
                 }
+                
                 const creditVal = parseFloat(credit);
                 const gradeVal = parseFloat(grades[i].value);
                 const gradeLetter = grades[i].options[grades[i].selectedIndex].text;
@@ -218,20 +146,26 @@
                 totalCredits += creditVal;
                 lastCalculationData.courses.push({ name: name, credit: creditVal, grade: gradeLetter });
             }
+            
+            // Sembunyikan saran sebelumnya jika ada perhitungan baru
+            document.getElementById('advice-section').classList.add('hidden');
+            
+            if (!allFieldsValid) {
+                 resultElement.textContent = "Error";
+                 resultElement.classList.add('text-red-500');
+                 adviceBtn.disabled = true;
+                 return;
+            }
 
             const ips = totalCredits > 0 ? (totalWeightedScore / totalCredits).toFixed(2) : '0.00';
             lastCalculationData.ips = ips;
             resultElement.textContent = ips;
             resultElement.classList.remove('text-red-500');
-            
-            if (self.status === 'ready') {
-                adviceBtn.disabled = false;
-            }
-            document.getElementById('advice-section').classList.add('hidden');
+            adviceBtn.disabled = false;
         }
 
-        window.getStudyAdvice = async function() {
-            if (!lastCalculationData || self.status !== 'ready') return;
+        async function getStudyAdvice() {
+            if (!lastCalculationData) return;
 
             const adviceSection = document.getElementById('advice-section');
             const adviceLoading = document.getElementById('advice-loading');
@@ -242,37 +176,68 @@
             adviceLoading.classList.remove('hidden');
             adviceContent.innerHTML = '';
             adviceBtn.disabled = true;
-            
+
             const coursesString = lastCalculationData.courses.map(c => `- ${c.name} (${c.credit} SKS): Nilai ${c.grade}`).join('\n');
             const prompt = `
-                Berikan saran belajar untuk mahasiswa dengan hasil berikut:
-                IPS: ${lastCalculationData.ips}
-                Mata Kuliah:
+                Anda adalah seorang penasihat akademik AI yang suportif dan cerdas.
+                Seorang mahasiswa di Indonesia meminta saran belajar berdasarkan hasil Indeks Prestasi Semester (IPS) mereka.
+
+                IPS Mahasiswa: ${lastCalculationData.ips}
+                Rincian Nilai:
                 ${coursesString}
 
-                Berikan analisis singkat, fokus perbaikan, dan strategi belajar yang praktis dalam Bahasa Indonesia.
-            `.trim();
+                Tolong berikan analisis dan saran belajar yang membangun, positif, dan dapat ditindaklanjuti dalam Bahasa Indonesia.
+                
+                Struktur respons Anda harus jelas dan mudah dibaca menggunakan format Markdown:
+                1.  **Analisis Singkat:** Berikan komentar singkat yang positif tentang hasil mahasiswa secara keseluruhan.
+                2.  **Identifikasi Kekuatan:** Sebutkan 1-2 mata kuliah dengan nilai terbaik dan puji pencapaian tersebut.
+                3.  **Fokus Perbaikan:** Identifikasi 1-2 mata kuliah yang paling krusial untuk diperbaiki (prioritaskan yang SKS-nya besar tapi nilainya kurang memuaskan) dan jelaskan mengapa ini penting.
+                4.  **Strategi Belajar Konkret:** Berikan 3-5 poin strategi belajar yang spesifik dan praktis. Contohnya seperti "buat rangkuman visual dengan metode mind-mapping", "alokasikan 2 jam setiap selasa untuk latihan soal", atau "diskusikan materi X dengan teman sebelum kelas".
+                5.  **Pesan Semangat:** Akhiri dengan kalimat yang memotivasi mahasiswa untuk terus berkembang di semester berikutnya.
+            `;
+            
+            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+            const apiKey = ""; // Kunci API akan disediakan oleh environment secara otomatis
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                const output = await self.pipeline(prompt, {
-                    max_new_tokens: 256,
-                    do_sample: true,
-                    top_k: 50,
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const result = await response.json();
                 
-                const formattedText = output[0].generated_text.replace(/\n/g, '<br>');
-                adviceContent.innerHTML = formattedText;
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content.parts[0].text) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    
+                    // Konversi Markdown sederhana ke HTML agar tampil lebih baik
+                    const html = text
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                        .replace(/(\n|^)#\s(.*?$)/gm, '<h1>$2</h1>')
+                        .replace(/(\n|^)##\s(.*?$)/gm, '<h2>$2</h2>')
+                        .replace(/(\n|^)###\s(.*?$)/gm, '<h3>$2</h3>')
+                        .replace(/(\n\d\.\s)/g, '<br><br><strong>$1</strong>') // Memberi spasi antar poin utama
+                        .replace(/\n-/g, '<br>-'); // list item
+                    
+                    adviceContent.innerHTML = html;
+                } else {
+                    throw new Error("Respons dari API tidak valid atau kosong.");
+                }
             } catch (error) {
-                console.error("Gagal menghasilkan saran:", error);
-                adviceContent.innerHTML = '<p class="text-red-500">Maaf, terjadi kesalahan saat AI mencoba memberikan saran. Silakan coba lagi.</p>';
+                console.error("Error fetching study advice:", error);
+                adviceContent.innerHTML = '<p class="text-red-500 text-center">Maaf, terjadi kesalahan saat meminta saran dari AI. Silakan coba beberapa saat lagi.</p>';
             } finally {
                 adviceLoading.classList.add('hidden');
                 adviceBtn.disabled = false;
             }
         }
-
-        // --- Mulai Inisialisasi AI saat halaman dimuat ---
-        initializeAI();
     </script>
 </body>
 </html>
